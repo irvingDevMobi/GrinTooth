@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GrinTooth</string>
+    <string name="discover_no_bluetooth_msg">We\'re sorry your device does not have bluetooth support</string>
 </resources>
