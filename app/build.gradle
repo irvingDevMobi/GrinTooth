@@ -1,33 +1,70 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "mx.irving.grintooth"
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        applicationId androidApplicationId
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetVersion
+        versionCode androidVersionCode
+        versionName androidVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+
+        }
+    }
+
+    android.buildTypes.each { type ->
+        def buildTypeData = rootProject.ext[type.name]
+        type.applicationIdSuffix buildTypeData.appIdSuffix
+        type.buildConfigField 'String', 'BASE_URL', buildTypeData.baseUrl
+        type.buildConfigField 'String', 'PATH_GET_DEVICES', buildTypeData.getDevices
+        type.buildConfigField 'String', 'PATH_ADD_DEVICE', buildTypeData.addDevice
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation generalDependencies.dagger,
+            generalDependencies.kotlin,
+            generalDependencies.rxJava,
+            androidDependencies.appCompatV7,
+            androidDependencies.constraintLayout,
+            androidDependencies.daggerAndroid,
+            androidDependencies.daggerAndroidSupport,
+            androidDependencies.dessignSupport,
+            androidDependencies.lifecycleComponent,
+            androidDependencies.rxAndroid,
+            androidDependencies.timber,
+            dataDependencies.gson,
+            dataDependencies.timber
+
+    api dataDependencies.retrofit,
+            dataDependencies.retrofitGson,
+            dataDependencies.retrofitRxAdapter
+
+    kapt generalDependencies.daggerCompiler,
+            androidDependencies.daggerAndroidProcessor
+
+    debugImplementation androidDependencies.stetho,
+            androidDependencies.stethoRealm,
+            dataDependencies.stethoOkHttp
+
+    testImplementation generalTestDependencies.junit,
+            generalTestDependencies.mockito
+
+    androidTestImplementation androidTestDependencies.runner,
+            androidTestDependencies.espresso
+
 }

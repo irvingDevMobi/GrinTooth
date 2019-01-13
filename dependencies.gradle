@@ -1,0 +1,82 @@
+ext {
+    // Build
+    androidApplicationId = "mx.irving.grintooth"
+    androidCompileSdkVersion = 28
+    androidMinSdkVersion = 15
+    androidTargetVersion = 28
+    androidVersionCode = 1
+    androidVersionName = "0.0.1"
+
+    // Android
+    appCompatV7Version = '28.0.0'
+    designSupportVersion = '28.0.0'
+    constraintLayoutVersion = '1.1.2'
+    lifecycleComponentVersion = '1.1.1'
+    mpAndroidChartVersion = 'v3.0.3'
+    okHttpVersion = '3.10.0'
+    retrofitVersion = '2.4.0'
+    rxAndroidVersion = '2.0.2'
+    stethoVersion = '1.5.0'
+    stethoRealmVersion = '2.2.2'
+    stickyHeaderVersion = '0.5.1'
+    timberVersion = '4.7.1'
+
+    // Libraries
+    daggerVersion = '2.16'
+    gsonVersion = '2.8.5'
+    rxJavaVersion = '2.1.16'
+    slf4jTimberVersion = '1.0.1'
+    fabricVersion = '2.9.6@aar'
+
+    // Android Testing
+    espressoVersion = '3.0.2'
+    runnerVersion = '1.0.2'
+
+    // Testing
+    jUnitVersion = '4.12'
+    mockitoVersion = '2.19.0'
+
+    generalDependencies = [
+            dagger        : "com.google.dagger:dagger:$daggerVersion",
+            daggerCompiler: "com.google.dagger:dagger-compiler:$daggerVersion",
+            gradle        : "com.android.tools.build:gradle:$gradleVersion",
+            rxJava        : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    ]
+
+    generalTestDependencies = [
+            junit  : "junit:junit:$jUnitVersion",
+            mockito: "org.mockito:mockito-inline:$mockitoVersion"
+    ]
+
+    androidDependencies = [
+            lifecycleComponent    : "android.arch.lifecycle:extensions:$lifecycleComponentVersion",
+            appCompatV7           : "com.android.support:appcompat-v7:$appCompatV7Version",
+            constraintLayout      : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
+            dessignSupport        : "com.android.support:design:$designSupportVersion",
+            stetho                : "com.facebook.stetho:stetho:$stethoVersion",
+            mpAndroidChart        : "com.github.PhilJay:MPAndroidChart:$mpAndroidChartVersion",
+            daggerAndroid         : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:$daggerVersion",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
+            timber                : "com.jakewharton.timber:timber:$timberVersion",
+            stethoRealm           : "com.uphyca:stetho_realm:$stethoRealmVersion",
+            stickyHeader          : "com.brandongogetap:stickyheaders:$stickyHeaderVersion",
+            rxAndroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            fabric                : "com.crashlytics.sdk.android:crashlytics:$fabricVersion"
+    ]
+
+    androidTestDependencies = [
+            runner  : "com.android.support.test:runner:$runnerVersion",
+            espresso: "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    ]
+
+    dataDependencies = [
+            stethoOkHttp     : "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
+            gson             : "com.google.code.gson:gson:$gsonVersion",
+            timber           : "com.jakewharton.timber:timber:$timberVersion",
+            retrofit         : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitGson     : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    ]
+}

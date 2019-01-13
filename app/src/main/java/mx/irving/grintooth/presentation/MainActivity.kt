@@ -1,7 +1,8 @@
-package mx.irving.grintooth
+package mx.irving.grintooth.presentation
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import mx.irving.grintooth.R
 
 class MainActivity : AppCompatActivity() {
 

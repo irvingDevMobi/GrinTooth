@@ -1,0 +1,14 @@
+ext {
+    release = [
+            baseUrl: '"https://grin-bluetooth-api.herokuapp.com/"',
+            getDevices: '"devices/"',
+            addDevice: '"add/"'
+    ]
+
+    debug = [
+            appIdSuffix: ".dev",
+            baseUrl    : '"https://grin-bluetooth-api.herokuapp.com/"',
+            getDevices: '"devices/"',
+            addDevice: '"add/"'
+    ]
+}
