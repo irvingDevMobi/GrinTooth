@@ -1,4 +1,4 @@
-package mx.irving.grintooth.data.mappers
+package mx.irving.grintooth.mvvmdata.mappers
 
 abstract class BaseMapper<Input, Output, Params> {
 

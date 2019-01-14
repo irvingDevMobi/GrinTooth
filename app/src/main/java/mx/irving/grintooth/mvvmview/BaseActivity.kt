@@ -1,4 +1,4 @@
-package mx.irving.grintooth.presentation
+package mx.irving.grintooth.mvvmview
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders

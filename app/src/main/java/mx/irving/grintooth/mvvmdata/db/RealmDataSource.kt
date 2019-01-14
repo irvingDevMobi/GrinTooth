@@ -1,6 +1,6 @@
-package mx.irving.grintooth.data.db
+package mx.irving.grintooth.mvvmdata.db
 
-import mx.irving.grintooth.data.mappers.BaseDataMapper
+import mx.irving.grintooth.mvvmdata.mappers.BaseDataMapper
 import io.realm.Realm
 import io.realm.RealmObject
 

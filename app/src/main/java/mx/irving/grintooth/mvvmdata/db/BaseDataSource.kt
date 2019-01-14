@@ -1,4 +1,4 @@
-package mx.irving.grintooth.data.db
+package mx.irving.grintooth.mvvmdata.db
 
 interface BaseDataSource<T> {
     fun create(entity: T)

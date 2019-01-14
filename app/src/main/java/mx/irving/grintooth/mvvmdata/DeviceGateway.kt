@@ -1,8 +1,8 @@
-package mx.irving.grintooth.data
+package mx.irving.grintooth.mvvmdata
 
 import io.reactivex.Observable
-import mx.irving.grintooth.data.mappers.DeviceResponseMapper
-import mx.irving.grintooth.data.network.GrinApi
+import mx.irving.grintooth.mvvmdata.mappers.DeviceResponseMapper
+import mx.irving.grintooth.mvvmdata.network.GrinApi
 
 class DeviceGateway(
         private val api: GrinApi,

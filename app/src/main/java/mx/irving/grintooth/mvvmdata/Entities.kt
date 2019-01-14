@@ -1,4 +1,4 @@
-package mx.irving.grintooth.data
+package mx.irving.grintooth.mvvmdata
 
 class OptionalRx<Model>(val value: Model?)
 

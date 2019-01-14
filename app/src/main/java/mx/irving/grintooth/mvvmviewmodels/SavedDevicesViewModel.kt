@@ -1,12 +1,12 @@
-package mx.irving.grintooth.domain
+package mx.irving.grintooth.mvvmviewmodels
 
 import android.arch.lifecycle.ViewModel
 import io.reactivex.Observable
-import mx.irving.grintooth.data.Device
-import mx.irving.grintooth.data.DeviceGateway
-import mx.irving.grintooth.data.OptionalRx
-import mx.irving.grintooth.data.mappers.DeviceResponseMapper
-import mx.irving.grintooth.data.network.GrinApi
+import mx.irving.grintooth.mvvmdata.Device
+import mx.irving.grintooth.mvvmdata.DeviceGateway
+import mx.irving.grintooth.mvvmdata.OptionalRx
+import mx.irving.grintooth.mvvmdata.mappers.DeviceResponseMapper
+import mx.irving.grintooth.mvvmdata.network.GrinApi
 
 class SavedDevicesViewModel() : ViewModel() {
     private val deviceGateway by lazy { DeviceGateway(GrinApi.instance, DeviceResponseMapper()) }

@@ -1,4 +1,4 @@
-package mx.irving.grintooth.data.network
+package mx.irving.grintooth.mvvmdata.network
 
 import com.google.gson.annotations.SerializedName
 

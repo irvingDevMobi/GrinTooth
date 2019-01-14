@@ -1,4 +1,4 @@
-package mx.irving.grintooth.data.network
+package mx.irving.grintooth.mvvmdata.network
 
 data class DeviceRequest(
         val name: String,

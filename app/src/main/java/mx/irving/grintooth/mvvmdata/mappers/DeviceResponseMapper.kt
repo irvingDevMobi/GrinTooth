@@ -1,7 +1,7 @@
-package mx.irving.grintooth.data.mappers
+package mx.irving.grintooth.mvvmdata.mappers
 
-import mx.irving.grintooth.data.Device
-import mx.irving.grintooth.data.network.DeviceResponse
+import mx.irving.grintooth.mvvmdata.Device
+import mx.irving.grintooth.mvvmdata.network.DeviceResponse
 
 class DeviceResponseMapper : BaseMapper<DeviceResponse, Device, Any>() {
     override fun transform(input: DeviceResponse?, params: Any?): Device? {
