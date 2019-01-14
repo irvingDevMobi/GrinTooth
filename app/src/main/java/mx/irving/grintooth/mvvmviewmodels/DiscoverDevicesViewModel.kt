@@ -14,6 +14,7 @@ class DiscoverDevicesViewModel : ViewModel() {
 
     private val viewStateSubject: BehaviorSubject<ViewState> = BehaviorSubject.create()
     private val viewState = ViewState()
+    private val discoveredDevices: HashMap<String, Device> = hashMapOf()
     var hasLocationPermission = false
         private set
 
@@ -25,6 +26,7 @@ class DiscoverDevicesViewModel : ViewModel() {
                     hasLocationPermission = true
                     viewState.showingDialogToLocationPermission = false
                     bluetoothManager.startDeviceDiscovery()
+
                 } else {
                     hasLocationPermission = false
                     viewState.showingDialogToLocationPermission = true
@@ -40,8 +42,12 @@ class DiscoverDevicesViewModel : ViewModel() {
 
     fun getViewState(): Observable<ViewState> = viewStateSubject.map { it }
 
-    fun getDiscoveredDevices(): Observable<List<Device>> {
-        return Observable.just(listOf())
+    fun addDevice(device: Device) {
+        if (!discoveredDevices.containsKey(device.address)) {
+            discoveredDevices[device.address] = device
+            viewState.discoveredDevices = discoveredDevices.values.toList()
+            viewStateSubject.onNext(viewState)
+        }
     }
 
     data class ViewState(
@@ -49,6 +55,6 @@ class DiscoverDevicesViewModel : ViewModel() {
             var showingBluetoothNoSupportedMessage: Boolean = false,
             var showingDialogToEnableBluetooth: Boolean = false,
             var showingDialogToLocationPermission: Boolean = false,
-            var showingDevicesDiscovered: Boolean = false
+            var discoveredDevices: List<Device> = listOf()
     )
 }

@@ -11,11 +11,12 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import mx.irving.grintooth.R
 import mx.irving.grintooth.mvvmdata.Device
 import mx.irving.grintooth.mvvmviewmodels.DiscoverDevicesViewModel
+import mx.irving.grintooth.utils.EMPTY
+import mx.irving.grintooth.utils.UNKNOWN
 import mx.irving.grintooth.utils.applyOnUi
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -23,19 +24,16 @@ import java.lang.ref.WeakReference
 class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
 
     override val viewModelClazz = DiscoverDevicesViewModel::class.java
-
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 BluetoothDevice.ACTION_FOUND -> {
-                    val device: BluetoothDevice =
-                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    Toast.makeText(this@MainActivity, device.name, Toast.LENGTH_SHORT).show()
+                    createDeviceInfoFromIntent(intent)
                 }
-                else -> Timber.d(intent.action)
             }
         }
     }
+    val discoveryDeviceAdapter by lazy { DiscoveryDeviceAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,18 +72,19 @@ class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
                                 { Timber.e(it) }
                         )
         )
-        addDisposable(
-                viewModel.getDiscoveredDevices()
-                        .applyOnUi()
-                        .subscribe(
-                                { drawDiscoveredDevices(it) },
-                                { Timber.e(it) }
-                        )
-        )
         if (!viewModel.hasLocationPermission) viewModel.startDeviceDiscovery()
     }
 
-    fun drawViewState(state: DiscoverDevicesViewModel.ViewState) {
+    fun createDeviceInfoFromIntent(intent: Intent) {
+        val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+        val deviceName = if (device.name.isNullOrBlank()) UNKNOWN else device.name
+        val strength: Short = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE)
+        if (!device.address.isNullOrBlank()) {
+            viewModel.addDevice(Device(EMPTY, deviceName, device.address, "${strength}db"))
+        }
+    }
+
+    private fun drawViewState(state: DiscoverDevicesViewModel.ViewState) {
         discoverLoader.visibility = if (state.showingLoader) View.VISIBLE else View.GONE
         discoverNoBluetoothMessage.visibility =
                 if (state.showingBluetoothNoSupportedMessage) View.VISIBLE else View.GONE
@@ -98,10 +97,15 @@ class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
                                               arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                                               REQUEST_LOCATION)
         }
+        if (state.discoveredDevices.isNotEmpty()) {
+            drawDiscoveredDevices(state.discoveredDevices)
+        }
     }
 
-    fun drawDiscoveredDevices(devices: List<Device>) {
-
+    private fun drawDiscoveredDevices(devices: List<Device>) {
+        discoveryDeviceAdapter.devices.clear()
+        discoveryDeviceAdapter.devices.addAll(devices)
+        discoveryDeviceAdapter.notifyDataSetChanged()
     }
 
     companion object {
