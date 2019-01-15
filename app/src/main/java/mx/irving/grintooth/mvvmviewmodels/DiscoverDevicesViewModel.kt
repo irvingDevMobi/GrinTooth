@@ -4,12 +4,16 @@ import android.arch.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import mx.irving.grintooth.mvvmdata.Device
+import mx.irving.grintooth.mvvmdata.DeviceGateway
 import mx.irving.grintooth.mvvmdata.IBluetoothManager
+import mx.irving.grintooth.mvvmdata.mappers.DeviceResponseMapper
+import mx.irving.grintooth.mvvmdata.network.GrinApi
 import mx.irving.grintooth.mvvmdata.platform.MyBluetoothManager
 
 class DiscoverDevicesViewModel : ViewModel() {
-    val bluetoothManager: IBluetoothManager by lazy {
-        MyBluetoothManager()
+    val bluetoothManager: IBluetoothManager by lazy { MyBluetoothManager() }
+    private val deviceGateway by lazy {
+        DeviceGateway(GrinApi.instance, DeviceResponseMapper())
     }
 
     private val viewStateSubject: BehaviorSubject<ViewState> = BehaviorSubject.create()
@@ -48,6 +52,10 @@ class DiscoverDevicesViewModel : ViewModel() {
             viewState.discoveredDevices = discoveredDevices.values.toList()
             viewStateSubject.onNext(viewState)
         }
+    }
+
+    fun saveDevice(device: Device): Observable<Boolean> {
+        return deviceGateway.saveDevice(device)
     }
 
     data class ViewState(

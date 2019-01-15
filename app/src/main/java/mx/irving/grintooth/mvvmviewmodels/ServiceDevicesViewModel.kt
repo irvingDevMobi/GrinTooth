@@ -8,7 +8,7 @@ import mx.irving.grintooth.mvvmdata.OptionalRx
 import mx.irving.grintooth.mvvmdata.mappers.DeviceResponseMapper
 import mx.irving.grintooth.mvvmdata.network.GrinApi
 
-class SavedDevicesViewModel() : ViewModel() {
+class ServiceDevicesViewModel() : ViewModel() {
     private val deviceGateway by lazy { DeviceGateway(GrinApi.instance, DeviceResponseMapper()) }
 
     fun getDevices(): Observable<OptionalRx<List<Device>>?> {

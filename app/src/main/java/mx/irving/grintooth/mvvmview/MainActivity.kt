@@ -10,7 +10,12 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import mx.irving.grintooth.R
 import mx.irving.grintooth.mvvmdata.Device
@@ -33,13 +38,38 @@ class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
             }
         }
     }
-    val discoveryDeviceAdapter by lazy { DiscoveryDeviceAdapter() }
+    private val onClickItemListener = object : DiscoveryDeviceAdapter.OnClickItemListener {
+        override fun onClickSaveButton(device: Device) {
+            addDisposable(
+                    viewModel.saveDevice(device)
+                            .applyOnUi()
+                            .subscribe(
+                                    {
+                                        Toast.makeText(this@MainActivity,
+                                                       R.string.discovery_device_saved,
+                                                       Toast.LENGTH_SHORT).show()
+                                    },
+                                    {
+                                        Toast.makeText(this@MainActivity,
+                                                       R.string.discovery_device_saved_error,
+                                                       Toast.LENGTH_SHORT).show()
+                                        Timber.e(it)
+                                    }
+                            )
+            )
+        }
+    }
+    private val discoveryDeviceAdapter by lazy { DiscoveryDeviceAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         registerReceiver(receiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
         viewModel.bluetoothManager.contextWeak = WeakReference(this)
+        discoveryRecyclerView.layoutManager = LinearLayoutManager(this)
+        discoveryRecyclerView.adapter = discoveryDeviceAdapter
+        discoveryDeviceAdapter.onClickItemListener = onClickItemListener
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,6 +91,26 @@ class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
     override fun onDestroy() {
         unregisterReceiver(receiver)
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.discovery_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.actionShowServiceDevices -> {
+                startActivity(Intent(this, ServiceDevicesActivity::class.java))
+                true
+            }
+            R.id.actionRefresh -> {
+                viewModel.startDeviceDiscovery()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun addDisposables() {

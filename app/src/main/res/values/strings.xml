@@ -2,4 +2,7 @@
     <string name="app_name">GrinTooth</string>
     <string name="discover_no_bluetooth_msg">We\'re sorry your device does not have bluetooth support</string>
     <string name="discovery_item_save">Save</string>
+    <string name="discovery_device_refresh">Refresh scan</string>
+    <string name="discovery_device_saved">Device Saved</string>
+    <string name="discovery_device_saved_error">We have problem with the services</string>
 </resources>

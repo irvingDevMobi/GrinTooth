@@ -12,6 +12,7 @@ import mx.irving.grintooth.utils.UNKNOWN
 class DiscoveryDeviceAdapter : RecyclerView.Adapter<DiscoveryDeviceAdapter.DeviceViewHolder>() {
 
     val devices: MutableList<Device> = mutableListOf()
+    var onClickItemListener: OnClickItemListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,7 +27,7 @@ class DiscoveryDeviceAdapter : RecyclerView.Adapter<DiscoveryDeviceAdapter.Devic
         holder.name.text = if (device.name.isBlank()) UNKNOWN else device.name
         holder.strength.text = device.strength
         holder.saveButton.setOnClickListener {
-
+            onClickItemListener?.onClickSaveButton(device)
         }
     }
 
@@ -34,5 +35,9 @@ class DiscoveryDeviceAdapter : RecyclerView.Adapter<DiscoveryDeviceAdapter.Devic
         val name = itemView.discoveryDeviceName
         val strength = itemView.discoveryDeviceStrength
         val saveButton = itemView.discoveryDeviceSaveButton
+    }
+
+    interface OnClickItemListener {
+        fun onClickSaveButton(device: Device)
     }
 }

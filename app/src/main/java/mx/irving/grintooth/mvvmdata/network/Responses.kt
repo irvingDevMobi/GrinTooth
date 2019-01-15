@@ -12,5 +12,5 @@ data class DeviceResponse(
 
 data class AddDeviceResponse(
         //TODO: check correct body when service ready
-        val device: DeviceResponse
+        val device: DeviceResponse?
 )
