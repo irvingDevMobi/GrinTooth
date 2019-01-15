@@ -4,5 +4,5 @@
     <string name="discovery_item_save">Save</string>
     <string name="discovery_device_refresh">Refresh scan</string>
     <string name="discovery_device_saved">Device Saved</string>
-    <string name="discovery_device_saved_error">We have problem with the services</string>
+    <string name="general_service_error">We have problem with the services</string>
 </resources>

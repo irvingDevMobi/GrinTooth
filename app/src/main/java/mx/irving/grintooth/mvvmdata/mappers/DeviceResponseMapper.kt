@@ -2,6 +2,7 @@ package mx.irving.grintooth.mvvmdata.mappers
 
 import mx.irving.grintooth.mvvmdata.Device
 import mx.irving.grintooth.mvvmdata.network.DeviceResponse
+import mx.irving.grintooth.utils.EMPTY
 
 class DeviceResponseMapper : BaseMapper<DeviceResponse, Device, Any>() {
     override fun transform(input: DeviceResponse?, params: Any?): Device? {
@@ -9,6 +10,7 @@ class DeviceResponseMapper : BaseMapper<DeviceResponse, Device, Any>() {
         else Device(input.id,
                     input.name,
                     input.address,
-                    input.strength)
+                    input.strength,
+                    input.createdAt ?: EMPTY)
     }
 }

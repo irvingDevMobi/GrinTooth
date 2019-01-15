@@ -51,7 +51,7 @@ class MainActivity : BaseActivity<DiscoverDevicesViewModel>() {
                                     },
                                     {
                                         Toast.makeText(this@MainActivity,
-                                                       R.string.discovery_device_saved_error,
+                                                       R.string.general_service_error,
                                                        Toast.LENGTH_SHORT).show()
                                         Timber.e(it)
                                     }
