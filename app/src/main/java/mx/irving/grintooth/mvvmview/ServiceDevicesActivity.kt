@@ -2,6 +2,9 @@ package mx.irving.grintooth.mvvmview
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_service_devices.*
@@ -29,8 +32,7 @@ class ServiceDevicesActivity : BaseActivity<ServiceDevicesViewModel>() {
                         .applyOnUi()
                         .subscribe(
                                 {
-                                    if (it?.value != null) drawDevices(it.value)
-                                    else showError()
+                                    drawDevices(it)
                                 },
                                 {
                                     showError()
@@ -38,6 +40,34 @@ class ServiceDevicesActivity : BaseActivity<ServiceDevicesViewModel>() {
                                 }
                         )
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.service_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.actionSort -> {
+                addDisposable(
+                        viewModel.getDevicesSorted()
+                                .applyOnUi()
+                                .subscribe(
+                                        {
+                                            drawDevices(it)
+                                        },
+                                        {
+                                            showError()
+                                            Timber.e(it)
+                                        }
+                                )
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun drawDevices(devices: List<Device>) {
